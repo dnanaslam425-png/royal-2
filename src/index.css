@@ -1,0 +1,54 @@
+@import url("https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap");
+@import "tailwindcss";
+
+:root {
+  --brand-primary: #1d4ed8;
+  --brand-secondary: #cbd5e1;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: "Tajawal", sans-serif;
+  background: #f8fafc;
+  color: #0f172a;
+}
+
+@layer utilities {
+  .bg-brand {
+    background-color: var(--brand-primary);
+  }
+
+  .text-brand {
+    color: var(--brand-primary);
+  }
+
+  .border-brand {
+    border-color: var(--brand-primary);
+  }
+
+  .ring-brand {
+    --tw-ring-color: var(--brand-primary);
+  }
+
+  .input-field {
+    margin-top: 0.5rem;
+    width: 100%;
+    border-radius: 1rem;
+    border: 1px solid rgb(226 232 240);
+    background: #fff;
+    padding: 0.75rem 1rem;
+    text-align: right;
+    color: #0f172a;
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+  }
+
+  .input-field:focus {
+    border-color: var(--brand-primary);
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--brand-primary) 18%, transparent);
+  }
+}

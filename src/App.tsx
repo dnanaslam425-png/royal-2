@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState, type CSSProperties } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import type { IconType } from "react-icons";
+import { supabase } from "./supabaseClient"; // تأكد من وجود ملف الاتصال في نفس المجلد
 import {
   FaBars,
   FaBolt,
@@ -186,6 +187,7 @@ function App() {
   const [adminTab, setAdminTab] = useState<AdminTab>("dashboard");
   const [loginForm, setLoginForm] = useState({ username: "", password: "", reveal: false });
 
+  // تعيين البيانات الابتدائية من Local Storage كمرحلة مؤقتة لحين اكتمال التحميل السحابي
   const [settings, setSettings] = useState<Settings>(() => loadFromStorage(STORAGE_KEYS.settings, defaultSettings));
   const [sections, setSections] = useState<Section[]>(() => loadFromStorage(STORAGE_KEYS.sections, defaultSections));
   const [products, setProducts] = useState<Product[]>(() => loadFromStorage(STORAGE_KEYS.products, defaultProducts));
@@ -230,38 +232,102 @@ function App() {
     return sectionMatches && searchMatches;
   });
 
+  // 🌐 [تأثير جلب البيانات بالكامل من Supabase بمجرد فتح الموقع]
   useEffect(() => {
-    saveToStorage(STORAGE_KEYS.settings, settings);
-  }, [settings]);
+    const loadAllCloudData = async () => {
+      try {
+        // 1. جلب المنتجات
+        const { data: cloudProducts } = await supabase.from("products").select("*").order("id", { ascending: false });
+        if (cloudProducts) {
+          setProducts(cloudProducts.map((p: any) => ({
+            id: String(p.id),
+            name: p.name,
+            sectionId: p.section_id,
+            subcategory: p.subcategory,
+            price: p.price,
+            description: p.description || "",
+            image: p.image || "",
+            featured: Boolean(p.featured),
+            updatedAt: p.updated_at || new Date().toISOString(),
+          })));
+        }
 
-  useEffect(() => {
-    saveToStorage(STORAGE_KEYS.sections, sections);
-  }, [sections]);
+        // 2. جلب الأقسام
+        const { data: cloudSections } = await supabase.from("sections").select("*");
+        if (cloudSections) {
+          setSections(cloudSections.map((s: any) => ({
+            id: s.id,
+            name: s.name,
+            headline: s.headline,
+            summary: s.summary,
+            icon: s.icon,
+            color: s.color,
+            subcategories: Array.isArray(s.subcategories) ? s.subcategories : JSON.parse(s.subcategories || "[]"),
+          })));
+        }
 
-  useEffect(() => {
-    saveToStorage(STORAGE_KEYS.products, products);
-  }, [products]);
+        // 3. جلب الوكلاء
+        const { data: cloudAgents } = await supabase.from("agents").select("*");
+        if (cloudAgents) {
+          setAgents(cloudAgents.map((a: any) => ({
+            id: String(a.id),
+            province: a.province,
+            name: a.name,
+            phone: a.phone,
+            address: a.address,
+            logo: a.logo_url || "",
+          })));
+        }
 
-  useEffect(() => {
-    saveToStorage(STORAGE_KEYS.agents, agents);
-  }, [agents]);
+        // 4. جلب الإعلانات/العروض
+        const { data: cloudBanners } = await supabase.from("banners").select("*");
+        if (cloudBanners) {
+          setBanners(cloudBanners.map((b: any) => ({
+            id: String(b.id),
+            title: b.title,
+            subtitle: b.subtitle,
+            image: b.image_url,
+            cta: b.cta_label,
+            link: b.link_url,
+            expires: b.expires_at || "",
+          })));
+        }
 
-  useEffect(() => {
-    saveToStorage(STORAGE_KEYS.banners, banners);
-  }, [banners]);
+        // 5. جلب الرسائل الواردة
+        const { data: cloudMessages } = await supabase.from("contact_messages").select("*").order("id", { ascending: false });
+        if (cloudMessages) {
+          setMessages(cloudMessages.map((m: any) => ({
+            id: String(m.id),
+            name: m.name,
+            email: m.email,
+            phone: m.phone,
+            subject: m.subject,
+            message: m.message,
+            read: Boolean(m.is_read),
+            createdAt: m.created_at,
+          })));
+        }
+      } catch (err: any) {
+        console.error("خطأ أثناء الاتصال بجلب البيانات السحابية:", err.message);
+      }
+    };
 
-  useEffect(() => {
-    saveToStorage(STORAGE_KEYS.messages, messages);
-  }, [messages]);
+    loadAllCloudData();
+  }, []);
+
+  // المزامنة الاحتياطية مع التخزين المحلي لضمان استقرار الواجهة وسرعتها
+  useEffect(() => { saveToStorage(STORAGE_KEYS.settings, settings); }, [settings]);
+  useEffect(() => { saveToStorage(STORAGE_KEYS.sections, sections); }, [sections]);
+  useEffect(() => { saveToStorage(STORAGE_KEYS.agents, agents); }, [agents]);
+  useEffect(() => { saveToStorage(STORAGE_KEYS.banners, banners); }, [banners]);
+  useEffect(() => { saveToStorage(STORAGE_KEYS.messages, messages); }, [messages]);
 
   useEffect(() => {
     if (authToken) saveToStorage(STORAGE_KEYS.auth, authToken);
     else localStorage.removeItem(STORAGE_KEYS.auth);
   }, [authToken]);
 
-  useEffect(() => {
-    document.title = settings.siteName;
-  }, [settings.siteName]);
+  useEffect(() => { document.title = settings.siteName; }, [settings.siteName]);
 
   useEffect(() => {
     if (heroSlides.length <= 1) return undefined;
@@ -325,7 +391,6 @@ function App() {
   }, [authToken]);
 
   const notify = (message: string) => setToast(message);
-
   const goTo = (nextView: View) => setView(nextView);
 
   const requestProduct = (product: Product) => {
@@ -354,20 +419,39 @@ function App() {
     window.open(link, "_blank", "noopener,noreferrer");
   };
 
-  const handleContactSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  // ✉️ [حفظ رسائل اتصل بنا في قاعدة البيانات السحابية تلقائياً]
+  const handleContactSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setMessages((current) => [
-      {
-        id: uid("message"),
-        ...contactDraft,
-        read: false,
-        createdAt: new Date().toISOString(),
-      },
-      ...current,
-    ]);
-    setContactDraft({ name: "", email: "", phone: "", subject: "", message: "" });
-    setContactNote("تم إرسال رسالتك بنجاح وسيتم الرد عليك في أقرب وقت.");
-    notify("تم حفظ الرسالة في لوحة الإدارة.");
+    try {
+      const msgPayload = {
+        name: contactDraft.name,
+        email: contactDraft.email,
+        phone: contactDraft.phone,
+        subject: contactDraft.subject,
+        message: contactDraft.message,
+        is_read: false,
+      };
+
+      const { data, error } = await supabase.from("contact_messages").insert([msgPayload]).select();
+      if (error) throw error;
+
+      if (data && data[0]) {
+        setMessages((current) => [
+          {
+            id: String(data[0].id),
+            ...contactDraft,
+            read: false,
+            createdAt: data[0].created_at,
+          },
+          ...current,
+        ]);
+      }
+      setContactDraft({ name: "", email: "", phone: "", subject: "", message: "" });
+      setContactNote("تم إرسال رسالتك بنجاح وسيتم الرد عليك في أقرب وقت.");
+      notify("تم إرسال وحفظ الرسالة سحابياً بنجاح! 📨");
+    } catch (err: any) {
+      notify("فشل الإرسال السحابي: " + err.message);
+    }
   };
 
   const handleAdminLogin = (event: React.FormEvent<HTMLFormElement>) => {
@@ -377,7 +461,6 @@ function App() {
       notify("بيانات الدخول غير صحيحة.");
       return;
     }
-
     setAuthToken(defaultAdminUser.username);
     setIsAdminLoggedIn(true);
     setAdminTab("dashboard");
@@ -392,80 +475,163 @@ function App() {
     setView("home");
   };
 
-  const handleSectionSave = () => {
+  // 📂 [إدارة الأقسام سحابياً]
+  const handleSectionSave = async () => {
     if (!sectionDraft.name.trim()) return notify("اكتب اسم القسم أولاً.");
 
-    if (editingSectionId) {
-      setSections((current) =>
-        current.map((section) =>
-          section.id === editingSectionId ? { ...section, ...sectionDraft, subcategories: sectionDraft.subcategories } : section,
-        ),
-      );
-      notify("تم تحديث القسم.");
-    } else {
-      const newSectionId = `${sectionDraft.name.trim().toLowerCase().replace(/\s+/g, "-")}-${Date.now()}` as SectionId;
-      setSections((current) => [...current, { ...sectionDraft, id: newSectionId }]);
-      notify("تمت إضافة قسم جديد.");
-    }
+    try {
+      const sectionPayload = {
+        name: sectionDraft.name,
+        headline: sectionDraft.headline,
+        summary: sectionDraft.summary,
+        icon: sectionDraft.icon,
+        color: sectionDraft.color,
+        subcategories: JSON.stringify(sectionDraft.subcategories),
+      };
 
-    setSectionDraft(sectionFormTemplate());
-    setEditingSectionId(null);
+      if (editingSectionId) {
+        const { error } = await supabase.from("sections").update(sectionPayload).eq("id", editingSectionId);
+        if (error) throw error;
+
+        setSections((current) =>
+          current.map((section) =>
+            section.id === editingSectionId ? { ...section, ...sectionDraft } : section,
+          ),
+        );
+        notify("تم تحديث القسم سحابياً! 💾");
+      } else {
+        const generatedId = `${sectionDraft.name.trim().toLowerCase().replace(/\s+/g, "-")}-${Date.now()}` as SectionId;
+        const { error } = await supabase.from("sections").insert([{ id: generatedId, ...sectionPayload }]);
+        if (error) throw error;
+
+        setSections((current) => [...current, { ...sectionDraft, id: generatedId }]);
+        notify("تمت إضافة القسم الجديد سحابياً! 🚀");
+      }
+      setSectionDraft(sectionFormTemplate());
+      setEditingSectionId(null);
+    } catch (err: any) {
+      notify("حدث خطأ في حفظ القسم: " + err.message);
+    }
   };
 
-  const handleProductSave = () => {
+  // 📦 [إدارة المنتجات سحابياً - مطورة بالكامل]
+  const handleProductSave = async () => {
     if (!productDraft.name.trim()) return notify("اكتب اسم المنتج أولاً.");
 
-    if (editingProductId) {
-      setProducts((current) =>
-        current.map((product) =>
-          product.id === editingProductId ? { ...productDraft, id: editingProductId, updatedAt: new Date().toISOString() } : product,
-        ),
-      );
-      notify("تم تحديث المنتج.");
-    } else {
-      setProducts((current) => [
-        {
-          ...productDraft,
-          id: uid("product"),
-          updatedAt: new Date().toISOString(),
-        },
-        ...current,
-      ]);
-      notify("تمت إضافة منتج جديد.");
-    }
+    try {
+      const productPayload = {
+        name: productDraft.name,
+        section_id: productDraft.sectionId,
+        subcategory: productDraft.subcategory,
+        price: productDraft.price,
+        description: productDraft.description,
+        image: productDraft.image,
+        featured: productDraft.featured,
+        updated_at: new Date().toISOString(),
+      };
 
-    setProductDraft(productFormTemplate(productDraft.sectionId));
-    setEditingProductId(null);
+      if (editingProductId) {
+        const { error } = await supabase.from("products").update(productPayload).eq("id", editingProductId);
+        if (error) throw error;
+
+        setProducts((current) =>
+          current.map((product) =>
+            product.id === editingProductId ? { ...productDraft, id: editingProductId, updatedAt: new Date().toISOString() } : product,
+          ),
+        );
+        notify("تم تحديث المنتج بنجاح ونشره سحابياً! 🌐");
+      } else {
+        const { data, error } = await supabase.from("products").insert([productPayload]).select();
+        if (error) throw error;
+
+        if (data && data[0]) {
+          setProducts((current) => [
+            {
+              ...productDraft,
+              id: String(data[0].id),
+              updatedAt: data[0].updated_at || new Date().toISOString(),
+            },
+            ...current,
+          ]);
+        }
+        notify("تمت إضافة المنتج الجديد بنجاح على السحابة! 🎉");
+      }
+      setProductDraft(productFormTemplate(productDraft.sectionId));
+      setEditingProductId(null);
+    } catch (err: any) {
+      notify("خطأ في الحفظ السحابي للمنتج: " + err.message);
+    }
   };
 
-  const handleAgentSave = () => {
+  // 👥 [إدارة الوكلاء سحابياً]
+  const handleAgentSave = async () => {
     if (!agentDraft.name.trim()) return notify("اكتب اسم الوكيل أولاً.");
 
-    if (editingAgentId) {
-      setAgents((current) => current.map((agent) => (agent.id === editingAgentId ? { ...agentDraft, id: editingAgentId } : agent)));
-      notify("تم تحديث بيانات الوكيل.");
-    } else {
-      setAgents((current) => [{ ...agentDraft, id: uid("agent") }, ...current]);
-      notify("تمت إضافة وكيل جديد.");
-    }
+    try {
+      const agentPayload = {
+        province: agentDraft.province,
+        name: agentDraft.name,
+        phone: agentDraft.phone,
+        address: agentDraft.address,
+        logo_url: agentDraft.logo,
+      };
 
-    setAgentDraft(agentFormTemplate());
-    setEditingAgentId(null);
+      if (editingAgentId) {
+        const { error } = await supabase.from("agents").update(agentPayload).eq("id", editingAgentId);
+        if (error) throw error;
+
+        setAgents((current) => current.map((agent) => (agent.id === editingAgentId ? { ...agentDraft, id: editingAgentId } : agent)));
+        notify("تم تحديث بيانات الوكيل سحابياً.");
+      } else {
+        const { data, error } = await supabase.from("agents").insert([agentPayload]).select();
+        if (error) throw error;
+
+        if (data && data[0]) {
+          setAgents((current) => [{ ...agentDraft, id: String(data[0].id) }, ...current]);
+        }
+        notify("تمت إضافة الوكيل الجديد سحابياً.");
+      }
+      setAgentDraft(agentFormTemplate());
+      setEditingAgentId(null);
+    } catch (err: any) {
+      notify("خطأ في حفظ الوكيل: " + err.message);
+    }
   };
 
-  const handleBannerSave = () => {
+  // 🖼️ [إدارة العروض والبنرات سحابياً]
+  const handleBannerSave = async () => {
     if (!bannerDraft.title.trim()) return notify("اكتب عنوان العرض أولاً.");
 
-    if (editingBannerId) {
-      setBanners((current) => current.map((banner) => (banner.id === editingBannerId ? { ...bannerDraft, id: editingBannerId } : banner)));
-      notify("تم تحديث العرض.");
-    } else {
-      setBanners((current) => [{ ...bannerDraft, id: uid("banner") }, ...current]);
-      notify("تمت إضافة عرض جديد.");
-    }
+    try {
+      const bannerPayload = {
+        title: bannerDraft.title,
+        subtitle: bannerDraft.subtitle,
+        image_url: bannerDraft.image,
+        cta_label: bannerDraft.cta,
+        link_url: bannerDraft.link,
+        expires_at: bannerDraft.expires || null,
+      };
 
-    setBannerDraft(bannerFormTemplate());
-    setEditingBannerId(null);
+      if (editingBannerId) {
+        const { error } = await supabase.from("banners").update(bannerPayload).eq("id", editingBannerId);
+        if (error) throw error;
+
+        setBanners((current) => current.map((banner) => (banner.id === editingBannerId ? { ...bannerDraft, id: editingBannerId } : banner)));
+        notify("تم تحديث العرض بنجاح على السحابة.");
+      } else {
+        const { data, error } = await supabase.from("banners").insert([bannerPayload]).select();
+        if (error) throw error;
+
+        if (data && data[0]) {
+          setBanners((current) => [{ ...bannerDraft, id: String(data[0].id) }, ...current]);
+        }
+        notify("تمت إضافة العرض الجديد بنجاح على السحابة.");
+      }
+      setBannerDraft(bannerFormTemplate());
+      setEditingBannerId(null);
+    } catch (err: any) {
+      notify("خطأ في حفظ العرض: " + err.message);
+    }
   };
 
   const sectionCounts = sections.map((section) => ({
@@ -516,6 +682,9 @@ function App() {
                 applyLink={applyLink}
               />
             </motion.div>
+          )}
+
+          {/* ... بقية مكونات العرض السفلي والتصميم الكامل لموقعك تظل كما هي تماماً دون أي تغيير لتضمن بقاء التصميم 100% كما تحب ... */}
           )}
 
           {view === "products" && (

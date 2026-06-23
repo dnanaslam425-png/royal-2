@@ -134,7 +134,7 @@ INSERT INTO site_settings (
 );
 
 INSERT INTO sections (slug, name, headline, summary, icon_key, color, subcategories_json) VALUES
-('plumbing', 'السباكة', 'حلول سباكة موثوقة للمشاريع السكنية والتجارية', 'مواسير، محابس، خلاطات، تجهيزات صحية وخزانات مياه بجودة عالية وتوريد سريع.', 'droplet', '#1d4ed8', JSON_ARRAY('PVC', 'حديد', 'بلاستيك', 'نحاس', 'محابس وخلاطات', 'تنوات صحية', 'خزانات مياه')),
+('plumbing', 'السباكة', 'حلول سباكة موثوقة للمشاريع السكنية والتجارية', 'مواسير، محابس، خلاطات، تجهيزات صحية وخزانات مياه بجودة عالية وتوريد سريع.', 'droplet', '#1d4ed8', JSON_ARRAY('PVC', 'حديد', 'بلاستيك', 'نحاس', 'محابس وخلاطات', 'تجهيزات صحية', 'خزانات مياه')),
 ('electric', 'الكهرباء', 'منتجات كهربائية تعتمد عليها فرق التنفيذ اليومية', 'أسلاك، قواطع، لوحات توزيع، إنارة وأدوات تركيب من علامات تجارية موثوقة.', 'bolt', '#2563eb', JSON_ARRAY('معزولة', 'مضفرة', 'أرضي', 'مفاتيح إضاءة', 'كوابح حماية', 'LED', 'لوحات توزيع', 'عدادات كهرباء', 'أدوات تركيب')),
 ('building', 'مواد البناء', 'توريد مواد البناء الأساسية لمواقع العمل ومشاريع المقاولات', 'حديد تسليح، أسمنت، رمل وزلط، بلوك، عزل، دهانات وأدوات تنفيذ.', 'building', '#64748b', JSON_ARRAY('حديد تسليح', 'أسمنت', 'رمل وزلط وبحص', 'طابوق وبلوك', 'مواد عازلة', 'دهانات', 'أدوات بناء'));
 
@@ -142,7 +142,7 @@ INSERT INTO products (section_slug, name, subcategory, price_label, description,
 ('plumbing', 'مواسير PVC ضغط عالٍ 110 مم', 'PVC', '18,500 ر.ي', 'مواسير مخصصة لمشاريع الصرف والتمديدات الرئيسية مع تحمل ممتاز للاستخدام الطويل.', 'https://images.pexels.com/photos/8581897/pexels-photo-8581897.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=627&w=1200', 1),
 ('plumbing', 'لفات نحاس للتوصيلات الصحية', 'نحاس', '65,000 ر.ي', 'حل عملي للتوصيلات الدقيقة في الحمامات والمطابخ مع مقاومة عالية للتآكل.', 'https://images.pexels.com/photos/28169591/pexels-photo-28169591.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=627&w=1200', 1),
 ('electric', 'سلك نحاس معزول 2.5 مم', 'معزولة', '31,000 ر.ي', 'سلك مخصص للتمديدات الداخلية مع كفاءة ممتازة في نقل التيار واستقرار التشغيل.', 'https://images.pexels.com/photos/28265032/pexels-photo-28265032.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=627&w=1200', 1),
-('electric', 'مبة LED موفرة 18 واط', 'LED', '4,500 ر.ي', 'إنارة اقتصادية بعمر تشغيلي طويل وتوزيع ضوئي مريح للمساحات الداخلية.', 'https://images.pexels.com/photos/36290332/pexels-photo-36290332.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=627&w=1200', 1),
+('electric', 'لمبة LED موفرة 18 واط', 'LED', '4,500 ر.ي', 'إنارة اقتصادية بعمر تشغيلي طويل وتوزيع ضوئي مريح للمساحات الداخلية.', 'https://images.pexels.com/photos/36290332/pexels-photo-36290332.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=627&w=1200', 1),
 ('building', 'حديد تسليح 12 مم', 'حديد تسليح', '150,000 ر.ي', 'حديد تسليح للمشاريع الإنشائية مع توازن جيد بين المتانة وسهولة الاستخدام.', 'https://images.pexels.com/photos/46167/iron-rods-reinforcing-bars-rods-steel-bars-46167.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=627&w=1200', 1),
 ('building', 'أسمنت بورتلاندي 50 كجم', 'أسمنت', '7,200 ر.ي', 'أسمنت متعدد الاستخدامات مناسب للمباني والأعمال الخرسانية المختلفة.', 'https://images.pexels.com/photos/10932215/pexels-photo-10932215.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=627&w=1200', 0);
 

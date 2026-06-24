@@ -313,11 +313,7 @@ function App() {
     };
 
     loadAllCloudData();
-  }, []);
-
-  
   }, [authToken]);
-
   const notify = (message: string) => setToast(message);
   const goTo = (nextView: View) => setView(nextView);
 

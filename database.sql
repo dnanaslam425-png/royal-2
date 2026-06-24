@@ -118,8 +118,8 @@ INSERT INTO site_settings (
   'حلول موثوقة للمواسير والسباكة والكهرباء ومواد البناء',
   '#1d4ed8',
   '#cbd5e1',
-  '+967 777 123 456',
-  '+967 777 123 456',
+  '+967 784414445',
+  '+967 784414445',
   'info@royal-yemen.com',
   'شارع الستين، صنعاء - الجمهورية اليمنية',
   'https://facebook.com',
@@ -139,19 +139,19 @@ INSERT INTO sections (slug, name, headline, summary, icon_key, color, subcategor
 ('building', 'مواد البناء', 'توريد مواد البناء الأساسية لمواقع العمل ومشاريع المقاولات', 'حديد تسليح، أسمنت، رمل وزلط، بلوك، عزل، دهانات وأدوات تنفيذ.', 'building', '#64748b', JSON_ARRAY('حديد تسليح', 'أسمنت', 'رمل وزلط وبحص', 'طابوق وبلوك', 'مواد عازلة', 'دهانات', 'أدوات بناء'));
 
 INSERT INTO products (section_slug, name, subcategory, price_label, description, image_url, featured) VALUES
-('plumbing', 'مواسير PVC ضغط عالٍ 110 مم', 'PVC', '18,500 ر.ي', 'مواسير مخصصة لمشاريع الصرف والتمديدات الرئيسية مع تحمل ممتاز للاستخدام الطويل.', 'https://images.pexels.com/photos/8581897/pexels-photo-8581897.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=627&w=1200', 1),
-('plumbing', 'لفات نحاس للتوصيلات الصحية', 'نحاس', '65,000 ر.ي', 'حل عملي للتوصيلات الدقيقة في الحمامات والمطابخ مع مقاومة عالية للتآكل.', 'https://images.pexels.com/photos/28169591/pexels-photo-28169591.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=627&w=1200', 1),
-('electric', 'سلك نحاس معزول 2.5 مم', 'معزولة', '31,000 ر.ي', 'سلك مخصص للتمديدات الداخلية مع كفاءة ممتازة في نقل التيار واستقرار التشغيل.', 'https://images.pexels.com/photos/28265032/pexels-photo-28265032.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=627&w=1200', 1),
-('electric', 'لمبة LED موفرة 18 واط', 'LED', '4,500 ر.ي', 'إنارة اقتصادية بعمر تشغيلي طويل وتوزيع ضوئي مريح للمساحات الداخلية.', 'https://images.pexels.com/photos/36290332/pexels-photo-36290332.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=627&w=1200', 1),
-('building', 'حديد تسليح 12 مم', 'حديد تسليح', '150,000 ر.ي', 'حديد تسليح للمشاريع الإنشائية مع توازن جيد بين المتانة وسهولة الاستخدام.', 'https://images.pexels.com/photos/46167/iron-rods-reinforcing-bars-rods-steel-bars-46167.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=627&w=1200', 1),
-('building', 'أسمنت بورتلاندي 50 كجم', 'أسمنت', '7,200 ر.ي', 'أسمنت متعدد الاستخدامات مناسب للمباني والأعمال الخرسانية المختلفة.', 'https://images.pexels.com/photos/10932215/pexels-photo-10932215.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=627&w=1200', 0);
+('plumbing', 'مواسير PVC ضغط عالٍ 110 مم', 'PVC', '0 ر.ي', 'مواسير مخصصة لمشاريع الصرف والتمديدات الرئيسية مع تحمل ممتاز للاستخدام الطويل.', 'https://imag/WhatsApp Image 2026-06-24 at 2.25.57 AM (3).jpeg', 1),
+('plumbing', 'لفات نحاس للتوصيلات الصحية', 'نحاس', ',000 ر.ي', 'حل عملي للتوصيلات الدقيقة في الحمامات والمطابخ مع مقاومة عالية للتآكل.', 'imag/WhatsApp Image 2026-06-24 at 2.25.54 AM (1).jpeg', 1),
+('electric', 'سلك نحاس معزول 2.5 مم', 'معزولة', ',000 ر.ي', 'سلك مخصص للتمديدات الداخلية مع كفاءة ممتازة في نقل التيار واستقرار التشغيل.', 'imag/WhatsApp Image 2026-06-24 at 1.50.40 AM.jpeg', 1),
+('electric', 'لمبة LED موفرة 18 واط', 'LED', '', 'إنارة اقتصادية بعمر تشغيلي طويل وتوزيع ضوئي مريح للمساحات الداخلية.', 'imag/WhatsApp Image 2026-06-24 at 1.50.47 AM.jpeg', 1),
+('building', 'حديد تسليح 12 مم', 'حديد تسليح', '', 'حديد تسليح للمشاريع الإنشائية مع توازن جيد بين المتانة وسهولة الاستخدام.', 'imag/WhatsApp Image 2026-06-24 at 2.25.54 AM (3).jpeg', 1),
+('building', 'أسمنت بورتلاندي 50 كجم', 'أسمنت', '', 'أسمنت متعدد الاستخدامات مناسب للمباني والأعمال الخرسانية المختلفة.', 'imag/WhatsApp Image 2026-06-24 at 2.25.54 AM.jpeg', 0);
 
 INSERT INTO banners (title, subtitle, image_url, cta_label, link_url, expires_at) VALUES
-('Royal for Pipes & Building Materials', 'حلول متكاملة للمواسير وأدوات السباكة والكهرباء ومواد البناء مع توريد سريع للمشاريع.', 'https://images.pexels.com/photos/14838208/pexels-photo-14838208.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=627&w=1200', 'استعرض المنتجات', '#products', NULL),
-('منتجات سباكة معتمدة للمنازل والمشاريع', 'مواسير، محابس، خلاطات، خزانات وأكسسوارات تنفيذ بجودة موثوقة وسعر منافس.', 'https://images.pexels.com/photos/28169591/pexels-photo-28169591.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=627&w=1200', 'تواصل مع فريق المبيعات', '#contact', NULL),
-('مواد بناء وكهرباء جاهزة للتوريد', 'من مواد الأساس حتى التشطيبات النهائية مع شبكة وكلاء تغطي المحافظات اليمنية.', 'https://images.pexels.com/photos/19825178/pexels-photo-19825178.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=627&w=1200', 'اعرف أقرب وكيل', '#agents', NULL);
+('Royal for Pipes & Building Materials', 'حلول متكاملة للمواسير وأدوات السباكة والكهرباء ومواد البناء مع توريد سريع للمشاريع.', 'imag/WhatsApp Image 2026-06-24 at 2.25.56 AM.jpeg', 'استعرض المنتجات', '#products', NULL),
+('منتجات سباكة معتمدة للمنازل والمشاريع', 'مواسير، محابس، خلاطات، خزانات وأكسسوارات تنفيذ بجودة موثوقة وسعر منافس.', 'imag/WhatsApp Image 2026-06-24 at 1.50.46 AM.jpeg', 'تواصل مع فريق المبيعات', '#contact', NULL),
+('مواد بناء وكهرباء جاهزة للتوريد', 'من مواد الأساس حتى التشطيبات النهائية مع شبكة وكلاء تغطي المحافظات اليمنية.', 'imag/WhatsApp Image 2026-06-24 at 1.50.40 AM.jpeg', 'اعرف أقرب وكيل', '#agents', NULL);
 
 INSERT INTO agents (province, name, phone, address, logo_url) VALUES
-('صنعاء', 'مؤسسة رويال للتوزيع - صنعاء', '+967 777 100 111', 'حي السوق الرئيسي، صنعاء', 'https://images.pexels.com/photos/14838208/pexels-photo-14838208.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=627&w=1200'),
-('عدن', 'شركة الريادة للمستلزمات - عدن', '+967 777 200 222', 'منطقة التوزيع الصناعي، عدن', NULL),
-('تعز', 'مؤسسة الصفوة التجارية - تعز', '+967 777 300 333', 'حي السوق الرئيسي، تعز', 'https://images.pexels.com/photos/8581897/pexels-photo-8581897.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=627&w=1200');
+('صنعاء', 'مؤسسة رويال للتوزيع - صنعاء', '+967 784414445', 'حي السوق الرئيسي، صنعاء', 'imag/WhatsApp Image 2026-06-24 at 1.50.44 AM (2).jpeg'),
+('عدن', 'شركة الريادة للمستلزمات - عدن', '+967 784414445', 'منطقة التوزيع الصناعي، عدن', NULL),
+('تعز', 'مؤسسة الصفوة التجارية - تعز', '+967 784414445', 'حي السوق الرئيسي، تعز', 'imag/WhatsApp Image 2026-06-24 at 1.50.41 AM.jpeg');

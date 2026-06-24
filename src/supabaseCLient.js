@@ -1,9 +1,7 @@
 import { createClient } from '@supabase/supabase-js';
 
-// ضع رابط المشروع الذي نسخته سابقاً
-const supabaseUrl = 'https://jattoremocfznfeutmtr.supabase.co'; 
-
-// ضع الـ Publishable Key الذي نسخته الآن
-const supabaseAnonKey = 'sb_publishable_P04kQwEnjiUEAPqzHRtkmw_tcNljiZc'; 
+// التعديل هنا: قراءة القيم من متغيرات البيئة بدلاً من كتابتها يدوياً
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
 export const supabase = createClient(supabaseUrl, supabaseAnonKey);

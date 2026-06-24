@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState, type CSSProperties } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import type { IconType } from "react-icons";
-import { supabase } from "./supabaseClient"; // تأكد من وجود ملف الاتصال في نفس المجلد
+import { supabase } from "./supabaseCLient"; // تأكد من وجود ملف الاتصال في نفس المجلد
 import {
   FaBars,
   FaBolt,
@@ -1485,12 +1485,12 @@ function AboutPage({ settings }: { settings: Settings }) {
 
         <div className="space-y-4 rounded-[2rem] border border-slate-200 bg-white p-5 shadow-sm">
           <div className="grid gap-4 sm:grid-cols-2">
-            <img src="https://images.pexels.com/photos/14838208/pexels-photo-14838208.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=627&w=1200" alt="مستودع" className="h-64 w-full rounded-3xl object-cover" />
-            <img src="https://images.pexels.com/photos/10932215/pexels-photo-10932215.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=627&w=1200" alt="إنشاءات" className="h-64 w-full rounded-3xl object-cover" />
+            <img src="imag/WhatsApp Image 2026-06-24 at 1.50.44 AM (2).jpeg" alt="مستودع" className="h-64 w-full rounded-3xl object-cover" />
+            <img src="imag/WhatsApp Image 2026-06-24 at 1.50.46 AM.jpeg" alt="إنشاءات" className="h-64 w-full rounded-3xl object-cover" />
           </div>
           <div className="grid gap-4 sm:grid-cols-2">
-            <img src="https://images.pexels.com/photos/8581897/pexels-photo-8581897.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=627&w=1200" alt="مواسير" className="h-64 w-full rounded-3xl object-cover" />
-            <img src="https://images.pexels.com/photos/28265032/pexels-photo-28265032.jpeg?auto=compress&cs=tinysrgb&fit=crop&h=627&w=1200" alt="كهرباء" className="h-64 w-full rounded-3xl object-cover" />
+            <img src="imag/WhatsApp Image 2026-06-24 at 2.25.58 AM (1).jpeg" alt="مواسير" className="h-64 w-full rounded-3xl object-cover" />
+            <img src="imag/WhatsApp Image 2026-06-24 at 1.50.47 AM.jpeg" alt="كهرباء" className="h-64 w-full rounded-3xl object-cover" />
           </div>
           <div className="rounded-[2rem] border border-slate-200 bg-slate-50 p-4">
             <p className="text-sm font-semibold uppercase tracking-[0.25em] text-slate-400">فيديو تعريفي</p>

@@ -1,5 +1,5 @@
 // src/api.ts
-import { supabase } from './supabaseClient'; // تأكد من إنشاء هذا الملف
+import { supabase } from 'src/supabaseCLient.js'; // تأكد من إنشاء هذا الملف
 
 export const fetchProducts = async () => {
   const { data, error } = await supabase.from('products').select('*');

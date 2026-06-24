@@ -608,12 +608,11 @@ function App() {
             </motion.div>
           )}
 
-          {/* ... بقية مكونات العرض السفلي والتصميم الكامل لموقعك تظل كما هي تماماً دون أي تغيير لتضمن بقاء التصميم 100% كما تحب ... */}
-          )}
+         
 
           {view === "products" && (
             <motion.div key="products" initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} transition={{ duration: 0.35 }}>
-              <ProductsPage
+             <ProductsPage 
                 settings={settings}
                 sections={sections}
                 selectedSection={selectedSection}

@@ -198,7 +198,7 @@ export const defaultProducts: Product[] = [
     subcategory: "نحاس",
     price: "",
     description: "حل عملي للتوصيلات الدقيقة في الحمامات والمطابخ مع مقاومة عالية للتآكل.",
-    image: photos,
+    image: photos.copper,
     featured: true,
   }),
   makeProduct(3, {

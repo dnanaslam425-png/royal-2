@@ -2418,7 +2418,6 @@ function SectionHeader({ eyebrow, title, description }: { eyebrow: string; title
 }
 
 export default App;
-=======
 import { useEffect, useMemo, useRef, useState, type CSSProperties } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import type { IconType } from "react-icons";
@@ -4839,4 +4838,3 @@ function SectionHeader({ eyebrow, title, description }: { eyebrow: string; title
 }
 
 export default App;
->>>>>>> e76de4dee1c0ea38a787d47c44c37ddf4eaa76de

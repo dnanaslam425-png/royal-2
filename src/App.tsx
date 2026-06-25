@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import { useEffect, useMemo, useRef, useState, type CSSProperties } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import type { IconType } from "react-icons";

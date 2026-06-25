@@ -178,7 +178,7 @@ export const defaultProducts: Product[] = [
     name: "مواسير PVC ضغط عالٍ 110 مم",
     sectionId: "plumbing",
     subcategory: "PVC",
-    price: "00",
+    price: "",
     description: "مواسير مخصصة لمشاريع الصرف والتمديدات الرئيسية مع تحمل ممتاز للاستخدام الطويل.",
     image: photos.pipes,
     featured: true,
@@ -198,7 +198,7 @@ export const defaultProducts: Product[] = [
     subcategory: "نحاس",
     price: "",
     description: "حل عملي للتوصيلات الدقيقة في الحمامات والمطابخ مع مقاومة عالية للتآكل.",
-    image: photos.copper,
+    image: photos,
     featured: true,
   }),
   makeProduct(3, {
